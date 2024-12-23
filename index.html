@@ -54,6 +54,10 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             padding: 20px;
             border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
         }
         .card h3 {
             color: #004085;
@@ -94,7 +98,68 @@
                 margin: 5px 0;
             }
         }
+        /* New styles for interactive elements */
+        .accordion {
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .accordion-item {
+            border-bottom: 1px solid #ccc;
+        }
+        .accordion-header {
+            padding: 10px;
+            cursor: pointer;
+            background-color: #e7e7e7;
+            transition: background-color 0.3s;
+        }
+        .accordion-header:hover {
+            background-color: #d7d7d7;
+        }
+        .accordion-content {
+            display: none;
+            padding: 10px;
+        }
+        /* Styles for back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            transition: background-color 0.3s;
+        }
+        .back-to-top:hover {
+            background-color: #0056b3;
+        }
     </style>
+    <script>
+        function toggleAccordion(event) {
+            const content = event.currentTarget.nextElementSibling;
+            content.style.display = content.style.display === "block" ? "none" : "block";
+        }
+
+        // Show or hide the back to top button based on scroll position
+        window.onscroll = function() {
+            const button = document.getElementById("backToTop");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                button.style.display = "block";
+            } else {
+                button.style.display = "none";
+            }
+        };
+
+        // Scroll to the top of the page when the button is clicked
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -157,9 +222,27 @@
             <h2>Kontak Kami</h2>
             <p>Untuk informasi lebih lanjut, hubungi kami di:</p>
             <p>Email: <a href="mailto:ilhambimar@apps.ipb.ac.id">ilhambimar@apps.ipb.ac.id</a></p>
-            <p>Telepon: +62 896-3624-1773</p>
+            <p>Telepon: +62 896 3624 1773</p>
+        </section>
+        <section class="section">
+            <h2>Informasi Tambahan</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(event)">Apa itu Perikanan Berkelanjutan?</div>
+                    <div class="accordion-content">
+                        <p>Perikanan berkelanj utan adalah praktik yang memastikan bahwa penangkapan ikan dilakukan dengan cara yang tidak merusak ekosistem laut dan menjamin ketersediaan sumber daya ikan untuk generasi mendatang.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(event)">Bagaimana cara mendukung perikanan berkelanjutan?</div>
+                    <div class="accordion-content">
+                        <p>Anda dapat mendukung perikanan berkelanjutan dengan memilih produk ikan yang bersertifikat, mengurangi konsumsi ikan yang terancam punah, dan mendukung kebijakan yang melindungi ekosistem laut.</p>
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()">^</button>
     <footer>
         <p>&copy; 2024 Sistem Perikanan Indonesia. All rights reserved. | <a href="#">Kebijakan Privasi</a></p>
     </footer>
