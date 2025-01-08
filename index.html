@@ -139,6 +139,52 @@
         .back-to-top:hover {
             background-color: #0056b3;
         }
+        
+        /* New styles for the carousel */
+        .carousel {
+            position: relative;
+            max-width: 1000px;
+            margin: 50px auto;
+            overflow: hidden;
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        .carousel-arrows {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .carousel-arrow {
+            background-color: rgba(255, 255, 255, 0.5);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .carousel-dots {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .carousel-dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            background-color: #007BFF;
+        }
     </style>
     <script>
         function toggleAccordion(event) {
@@ -216,11 +262,63 @@
         <section id="peta" class="section">
             <h2>Peta Perikanan di Indonesia</h2>
             <p>Berikut adalah peta Tingkat Pelanggaran Penangkapan Ikan WPP-RI.</p>
-            <iframe src="https://www.arcgis.com/apps/instant/interactivelegend/index.html?appid=02c14114591148689623a599749a6b59" 
-                    width="100%" 
-                    height="500px" 
-                    frameborder="0">
-            </iframe>
+            <section id="peta" class="section">
+                <h2>Peta Perikanan di Indonesia</h2>
+                <p>Berikut adalah peta Tingkat Pelanggaran Penangkapan Ikan WPP-RI.</p>
+                <iframe src="https://www.arcgis.com/apps/instant/interactivelegend/index.html?appid=02c14114591148689623a599749a6b59" 
+                        width="100%" 
+                        height="500px" 
+                        frameborder="0">
+                </iframe>
+            </section>
+            <div id="map" style="height: 400px;"></div> <!-- Corrected ID and added height -->
+        </section>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script>
+            const map = L.map('map').setView([-2.5489, 118.0149], 5); // Center on Indonesia
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+            }).addTo(map);
+        
+            // Add markers for key fishing locations
+            const locations = [
+                { name: "Jakarta", coords: [-6.2088, 106.8456] },
+                { name: "Surabaya", coords: [-7.2575, 112.7521] },
+                { name: "Makassar", coords: [-5.1477, 119.4327] },
+            ];
+        
+            locations.forEach(loc => {
+                L.marker(loc.coords).addTo(map)
+                    .bindPopup(`<b>${loc.name}</b><br>Fishing hotspot.`);
+            });
+        </script>
+            <canvas id="fishPopulationChart"></canvas>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+                const ctx = document.getElementById('fishPopulationChart').getContext('2d');
+                const fishPopulationChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Tuna', 'Mackerel', 'Sardines', 'Shrimp', 'Catfish'],
+                        datasets: [{
+                            label: 'Fish Population (in tons)',
+                            data: [1200, 800, 600, 900, 700],
+                            backgroundColor: ['#007BFF', '#0056b3', '#004085', '#FFD700', '#28a745'],
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            },
+                            tooltip: {
+                                enabled: true,
+                            }
+                        }
+                    }
+                });
+            </script>        
         </section>
         <section id="kontak" class="section">
             <h2>Kontak Kami</h2>
